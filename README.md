@@ -1,6 +1,23 @@
-# MSSQL Schema Sync
+# mssql schema sync
 
-Automated synchronization of SQL Server database schemas to GitLab repository. Exports stored procedures, functions, views, and table DDLs with indexes to version-controlled SQL files.
+Automated synchronization of SQL Server database schemas to GitLab repository. Exports stored procedures, functions, views, and table DDLs with indexes to version-controlled SQL files
+
+## Table of сontents
+
+- [Features](#features)
+- [Why use this](#why-use-this)
+- [How it works](#how-it-works)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Database selection modes](#database-selection-modes)
+- [Usage](#usage)
+- [Repository structure](#repository-structure)
+- [Output format](#output-format)
+- [Logging](#logging)
+- [Scheduling](#scheduling)
+- [GitLab token permissions](#gitlab-token-permissions)
+- [License](#license)
 
 ## Features
 
@@ -11,7 +28,7 @@ Automated synchronization of SQL Server database schemas to GitLab repository. E
 - Single commit per sync with detailed statistics
 - Organized file structure by database and object type
 
-## Why Use This
+## Why use this
 
 - Track database schema changes over time through periodic snapshots
 - Review modifications to stored procedures, functions, views, and tables between sync runs
@@ -22,7 +39,7 @@ Automated synchronization of SQL Server database schemas to GitLab repository. E
 
 Note: This tool creates snapshots at each sync interval. It does not capture real-time changes, only differences between scheduled runs.
 
-## How It Works
+## How it works
 
 The sync process follows these steps:
 
@@ -36,7 +53,7 @@ The script uses the GitLab API directly, without git commands or local repositor
 
 ## Requirements
 
-- Python 3.11+
+- Python 3.10+
 - SQL Server with ODBC Driver 17
 - GitLab account with repository access
 - Poetry for dependency management
@@ -71,7 +88,7 @@ GITLAB_PROJECT=namespace/project-name
 GITLAB_BRANCH=main
 ```
 
-## Database Selection Modes
+## Database selection modes
 
 ### Specific databases
 ```env
@@ -95,7 +112,7 @@ EXCLUDE_DATABASES=TestDB,OldDB,ArchiveDB
 poetry run python sync.py
 ```
 
-## Repository Structure
+## Repository structure
 
 Files are organized by database and object type:
 ```
@@ -111,7 +128,7 @@ DatabaseName/
     └── dbo.ViewName.sql
 ```
 
-## Output Format
+## Output format
 
 **Stored Procedures/Functions:**
 - Uses CREATE OR ALTER syntax for idempotent execution
@@ -131,13 +148,13 @@ Logs are written to `sp_sync.log` and console output. Each run includes:
 
 ## Scheduling
 
-The script can be scheduled using Apache Airflow or other orchestration tools.
+The script can be scheduled using Apache Airflow or other orchestration tools. There is a DAG example file: mssql_schema_sync_dag.py, which can be used to automate the sync process in Airflow.
 Or just simple add to crontab for automated daily sync:
 ```bash
 0 2 * * * cd /path/to/project && poetry run python sync.py
 ```
 
-## GitLab Token Permissions
+## GitLab token permissions
 
 Required token scopes:
 - `api`

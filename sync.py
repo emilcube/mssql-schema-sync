@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-load_dotenv()
+load_dotenv(override=True)
 
 SQL_HOST = os.getenv('SQL_HOST')
 SQL_USER = os.getenv('SQL_USER')
@@ -46,7 +46,6 @@ TYPE_FOLDERS = {
     'TF': 'others',  # Multi-statement Table-Valued Function
     'TR': 'others',  # Trigger
 }
-
 
 # ---- SQL QUERY ----
 QUERY = """
