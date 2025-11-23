@@ -1,0 +1,4 @@
+backup/
+*.log
+help.txt
+*.env
